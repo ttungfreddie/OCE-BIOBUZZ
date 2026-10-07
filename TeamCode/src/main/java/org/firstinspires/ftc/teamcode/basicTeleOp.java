@@ -16,6 +16,7 @@ public class basicTeleOp extends OpMode {
     DcMotor frontRightDrive;
     DcMotor backLeftDrive;
     DcMotor backRightDrive;
+    DcMotor intakeMotor;
 
     // This declares the IMU needed to get the current direction the robot is facing
     IMU imu;
@@ -26,6 +27,8 @@ public class basicTeleOp extends OpMode {
         frontRightDrive = hardwareMap.get(DcMotor.class, "Front Right Drive");
         backLeftDrive = hardwareMap.get(DcMotor.class, "Back Left Drive");
         backRightDrive = hardwareMap.get(DcMotor.class, "Back Right Drive");
+        intakeMotor = hardwareMap.get(DcMotor.class, "Intake Motor");
+
 
         // We set the left motors in reverse which is needed for drive trains where the left
         // motors are opposite to the right ones.
@@ -70,6 +73,10 @@ public class basicTeleOp extends OpMode {
         } else {
             driveFieldRelative(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
         }
+
+        if (gamepad1.right_bumper) {
+            intakeMotor.setPower(0.9);
+        }
     }
 
     // This routine drives the robot field relative
@@ -92,7 +99,7 @@ public class basicTeleOp extends OpMode {
 
     // Thanks to FTC16072 for sharing this code!!
     public void drive(double forward, double right, double rotate) {
-        // This calculates the power needed for each wheel based on the amount of forward,
+        // This calculates the power needed for *each wheel based on the amount of forward,
         // strafe right, and rotate
         double frontLeftPower = forward + right + rotate;
         double frontRightPower = forward - right - rotate;
