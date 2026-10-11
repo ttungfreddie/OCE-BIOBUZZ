@@ -5,6 +5,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -17,6 +18,7 @@ public class basicTeleOp extends OpMode {
     DcMotor backLeftDrive;
     DcMotor backRightDrive;
     DcMotor intakeMotor;
+    double intakeSpeed = 0.7;
 
     // This declares the IMU needed to get the current direction the robot is facing
     IMU imu;
@@ -34,6 +36,7 @@ public class basicTeleOp extends OpMode {
         // motors are opposite to the right ones.
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        intakeMotor.setDirection(DcMotor.Direction.FORWARD);
 
         // This uses RUN_USING_ENCODER to be more accurate.   If you don't have the encoder
         // wires, you should remove these
@@ -75,7 +78,22 @@ public class basicTeleOp extends OpMode {
         }
 
         if (gamepad1.right_bumper) {
-            intakeMotor.setPower(0.9);
+            intakeMotor.setPower(intakeSpeed);
+        }
+        else if (gamepad1.left_bumper)
+        {
+            intakeMotor.setPower(-intakeSpeed);
+        } else {
+            intakeMotor.setPower(0);
+        }
+
+        if (gamepad1.dpad_up) {
+            intakeSpeed += 0.1;
+            telemetry.addLine(String.valueOf(intakeSpeed));
+        }
+        else if (gamepad1.dpad_down) {
+            intakeSpeed -= 0.1;
+            telemetry.addLine(String.valueOf(intakeSpeed));
         }
     }
 
