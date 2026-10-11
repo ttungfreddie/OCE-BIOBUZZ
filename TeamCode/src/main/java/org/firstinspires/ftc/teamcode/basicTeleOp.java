@@ -96,6 +96,8 @@ public class basicTeleOp extends OpMode {
             intakeSpeed -= 0.1;
             telemetry.addLine(String.valueOf(intakeSpeed));
         }
+
+        if (gamepad1.B)
     }
 
     // This routine drives the robot field relative
